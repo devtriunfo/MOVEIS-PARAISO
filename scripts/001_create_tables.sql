@@ -1,3 +1,6 @@
+-- Necessário para gen_random_uuid()
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 -- Tabela de produtos/móveis
 CREATE TABLE IF NOT EXISTS products (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -85,41 +88,41 @@ ALTER TABLE sale_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE payments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE seo_settings ENABLE ROW LEVEL SECURITY;
 
--- Políticas RLS para produtos (acesso público para leitura, autenticado para escrita)
+-- Políticas RLS para produtos (acesso público para leitura e escrita)
 CREATE POLICY "Anyone can view products" ON products FOR SELECT USING (true);
-CREATE POLICY "Authenticated users can insert products" ON products FOR INSERT WITH CHECK (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can update products" ON products FOR UPDATE USING (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can delete products" ON products FOR DELETE USING (auth.role() = 'authenticated');
+CREATE POLICY "Authenticated users can insert products" ON products FOR INSERT WITH CHECK (true);
+CREATE POLICY "Authenticated users can update products" ON products FOR UPDATE USING (true);
+CREATE POLICY "Authenticated users can delete products" ON products FOR DELETE USING (true);
 
--- Políticas RLS para clientes (apenas autenticados)
-CREATE POLICY "Authenticated users can view customers" ON customers FOR SELECT USING (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can insert customers" ON customers FOR INSERT WITH CHECK (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can update customers" ON customers FOR UPDATE USING (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can delete customers" ON customers FOR DELETE USING (auth.role() = 'authenticated');
+-- Políticas RLS para clientes (acesso público para leitura e escrita)
+CREATE POLICY "Authenticated users can view customers" ON customers FOR SELECT USING (true);
+CREATE POLICY "Authenticated users can insert customers" ON customers FOR INSERT WITH CHECK (true);
+CREATE POLICY "Authenticated users can update customers" ON customers FOR UPDATE USING (true);
+CREATE POLICY "Authenticated users can delete customers" ON customers FOR DELETE USING (true);
 
--- Políticas RLS para vendas (apenas autenticados)
-CREATE POLICY "Authenticated users can view sales" ON sales FOR SELECT USING (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can insert sales" ON sales FOR INSERT WITH CHECK (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can update sales" ON sales FOR UPDATE USING (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can delete sales" ON sales FOR DELETE USING (auth.role() = 'authenticated');
+-- Políticas RLS para vendas (acesso público para leitura e escrita)
+CREATE POLICY "Authenticated users can view sales" ON sales FOR SELECT USING (true);
+CREATE POLICY "Authenticated users can insert sales" ON sales FOR INSERT WITH CHECK (true);
+CREATE POLICY "Authenticated users can update sales" ON sales FOR UPDATE USING (true);
+CREATE POLICY "Authenticated users can delete sales" ON sales FOR DELETE USING (true);
 
--- Políticas RLS para itens de venda (apenas autenticados)
-CREATE POLICY "Authenticated users can view sale_items" ON sale_items FOR SELECT USING (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can insert sale_items" ON sale_items FOR INSERT WITH CHECK (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can update sale_items" ON sale_items FOR UPDATE USING (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can delete sale_items" ON sale_items FOR DELETE USING (auth.role() = 'authenticated');
+-- Políticas RLS para itens de venda (acesso público para leitura e escrita)
+CREATE POLICY "Authenticated users can view sale_items" ON sale_items FOR SELECT USING (true);
+CREATE POLICY "Authenticated users can insert sale_items" ON sale_items FOR INSERT WITH CHECK (true);
+CREATE POLICY "Authenticated users can update sale_items" ON sale_items FOR UPDATE USING (true);
+CREATE POLICY "Authenticated users can delete sale_items" ON sale_items FOR DELETE USING (true);
 
--- Políticas RLS para pagamentos (apenas autenticados)
-CREATE POLICY "Authenticated users can view payments" ON payments FOR SELECT USING (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can insert payments" ON payments FOR INSERT WITH CHECK (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can update payments" ON payments FOR UPDATE USING (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can delete payments" ON payments FOR DELETE USING (auth.role() = 'authenticated');
+-- Políticas RLS para pagamentos (acesso público para leitura e escrita)
+CREATE POLICY "Authenticated users can view payments" ON payments FOR SELECT USING (true);
+CREATE POLICY "Authenticated users can insert payments" ON payments FOR INSERT WITH CHECK (true);
+CREATE POLICY "Authenticated users can update payments" ON payments FOR UPDATE USING (true);
+CREATE POLICY "Authenticated users can delete payments" ON payments FOR DELETE USING (true);
 
--- Políticas RLS para SEO settings (apenas autenticados)
-CREATE POLICY "Authenticated users can view seo_settings" ON seo_settings FOR SELECT USING (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can insert seo_settings" ON seo_settings FOR INSERT WITH CHECK (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can update seo_settings" ON seo_settings FOR UPDATE USING (auth.role() = 'authenticated');
-CREATE POLICY "Authenticated users can delete seo_settings" ON seo_settings FOR DELETE USING (auth.role() = 'authenticated');
+-- Políticas RLS para SEO settings (acesso público para leitura e escrita)
+CREATE POLICY "Authenticated users can view seo_settings" ON seo_settings FOR SELECT USING (true);
+CREATE POLICY "Authenticated users can insert seo_settings" ON seo_settings FOR INSERT WITH CHECK (true);
+CREATE POLICY "Authenticated users can update seo_settings" ON seo_settings FOR UPDATE USING (true);
+CREATE POLICY "Authenticated users can delete seo_settings" ON seo_settings FOR DELETE USING (true);
 
 -- Inserir móveis de exemplo
 INSERT INTO products (name, description, category, price, cost_price, stock_quantity, min_stock) VALUES

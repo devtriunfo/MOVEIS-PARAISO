@@ -3,6 +3,16 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   try {
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      return NextResponse.json(
+        {
+          error:
+            'BLOB_READ_WRITE_TOKEN não configurado. Configure no .env.local para habilitar upload de imagens.',
+        },
+        { status: 500 },
+      )
+    }
+
     const formData = await request.formData()
     const file = formData.get('file') as File
 
@@ -30,12 +40,23 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ url: `/api/file?pathname=${encodeURIComponent(blob.pathname)}`, pathname: blob.pathname })
   } catch (error) {
     console.error('Erro no upload:', error)
-    return NextResponse.json({ error: 'Falha no upload' }, { status: 500 })
+    const errorMessage = error instanceof Error ? error.message : 'Falha no upload'
+    return NextResponse.json({ error: `Falha no upload: ${errorMessage}` }, { status: 500 })
   }
 }
 
 export async function DELETE(request: NextRequest) {
   try {
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      return NextResponse.json(
+        {
+          error:
+            'BLOB_READ_WRITE_TOKEN não configurado. Configure no .env.local para habilitar remoção de imagens.',
+        },
+        { status: 500 },
+      )
+    }
+
     const { url } = await request.json()
 
     if (!url) {
