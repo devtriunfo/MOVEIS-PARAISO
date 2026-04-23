@@ -76,3 +76,54 @@ export interface CustomerWithDebt extends Customer {
   total_debt: number
   overdue_sales: number
 }
+
+export interface FiscalCompanySettings {
+  id: string
+  company_name: string
+  cnpj: string
+  ie: string | null
+  im: string | null
+  regime_tributario: string
+  address_street: string
+  address_number: string
+  address_district: string
+  address_city: string
+  address_city_ibge: string
+  address_state: string
+  address_zip_code: string
+  phone: string | null
+  email: string | null
+  nfce_series: number
+  nfe_series: number
+  ambiente: 'homologacao' | 'producao'
+  focus_token: string | null
+  focus_api_url: string
+  webhook_secret: string | null
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface FiscalDocument {
+  id: string
+  sale_id: string | null
+  customer_id: string | null
+  document_type: 'nfe' | 'nfce'
+  reference: string
+  status: 'pending' | 'processing' | 'authorized' | 'rejected' | 'cancelled'
+  focus_id: string | null
+  number: number | null
+  series: number | null
+  access_key: string | null
+  protocol: string | null
+  xml_url: string | null
+  danfe_url: string | null
+  error_message: string | null
+  request_payload: Record<string, unknown> | null
+  focus_response: Record<string, unknown> | null
+  issued_at: string | null
+  authorized_at: string | null
+  cancelled_at: string | null
+  created_at: string
+  updated_at: string
+}
